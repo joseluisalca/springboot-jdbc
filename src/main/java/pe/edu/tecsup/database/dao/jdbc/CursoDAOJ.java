@@ -42,25 +42,30 @@ public Curso get(Long id) {
     } catch (Exception e) {
          return null;
     }
-    
-    
-    
-    
-    
-    
-
+        
    
 }
 
 
-
-
-
-
-
     @Override
     public void save(Curso t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    String sql = "insert into curso(nombre,nombre, codigo)values(?,?,?)";
+
+    try {
+        this.getJdbcTemplate().update(
+                sql,
+                new Object[]{
+                    t.getNombre(),
+                    t.getCodigo()
+                }
+        );
+
+        Long id = this.getJdbcTemplate().queryForObject("select last_insert_id()", Long.class);
+        t.setId(id);
+
+    } catch (DataAccessException e) {
+        System.err.println("ERROR: " + e.getMessage());
+    }
     }
 
     @Override

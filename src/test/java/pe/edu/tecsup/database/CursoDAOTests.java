@@ -42,9 +42,9 @@ public class CursoDAOTests {
     public void verifySave() {
 
         Curso curso = new Curso();
-        curso.setCodigo("1030");
-        curso.setNombre("Nuevo Programa  jose luis");
-        curso.setNombre("......");
+        curso.setCodigo("1050");
+        curso.setNombre("Nuevo Programa  jose luis2");
+
 
         cursoDAO.save(curso);
         Assert.assertTrue(curso.getId() != null);
