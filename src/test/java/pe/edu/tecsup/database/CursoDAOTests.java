@@ -23,10 +23,7 @@ public class CursoDAOTests {
         List <Curso> cursos = cursoDAO.list();
         
         for (Curso curso : cursos) {
-            System.out.println(curso.getId());
-            System.out.println(curso.getNombre());
-            System.out.println(curso.getCodigo());
-            
+            System.out.println(curso.getNombre());           
         }
         Assert.assertTrue(cursos.size() > 0);
     }
@@ -43,8 +40,7 @@ public class CursoDAOTests {
 
         Curso curso = new Curso();
         curso.setCodigo("1050");
-        curso.setNombre("Nuevo Programa  jose luis2");
-
+        curso.setNombre("Nuevo Pcc");
 
         cursoDAO.save(curso);
         Assert.assertTrue(curso.getId() != null);

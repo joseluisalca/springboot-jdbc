@@ -13,59 +13,56 @@ import pe.edu.tecsup.database.model.Curso;
 
 @Repository
 public class CursoDAOJ extends JdbcDaoSupport implements CursoDAO {
-   
-@Autowired
-private DataSource dataSource;
 
-@PostConstruct
-private void initialize() {
-    setDataSource(dataSource);
-}
+    @Autowired
+    private DataSource dataSource;
 
-@Override
-public List<Curso> list() {
-    String sql = "select * from curso";
-    return this.getJdbcTemplate().query(sql, new CursoRowMapper());
-}
+    @PostConstruct
+    private void initialize() {
+        setDataSource(dataSource);
+    }
 
-@Override
-public Curso get(Long id) {
-    String sql = "select * from curso where id = ?";
+    @Override
+    public List<Curso> list() {
+        String sql = "select * from curso";
+        return this.getJdbcTemplate().query(sql, new CursoRowMapper());
+    }
+
+    @Override
+    public Curso get(Long id) {
+        String sql = "select * from curso where id = ?";
 
     // Parámetros del QueryForObjet:
-    // (1)Query , (2)Array de Parámetros del Query y  (3) el RowMapper
-    
-    try {
-        Curso curso = (Curso) this.getJdbcTemplate()
-            .queryForObject(sql, new Object[]{id}, new CursoRowMapper());    
-        return curso;
-    } catch (Exception e) {
-         return null;
-    }
-        
-   
-}
+        // (1)Query , (2)Array de Parámetros del Query y  (3) el RowMapper
+        try {
+            Curso curso = (Curso) this.getJdbcTemplate()
+                    .queryForObject(sql, new Object[]{id}, new CursoRowMapper());
+            return curso;
+        } catch (Exception e) {
+            return null;
+        }
 
+    }
 
     @Override
     public void save(Curso t) {
-    String sql = "insert into curso(nombre,nombre, codigo)values(?,?,?)";
+        String sql = "insert into curso(nombre, codigo)values(?,?)";
 
-    try {
-        this.getJdbcTemplate().update(
-                sql,
-                new Object[]{
-                    t.getNombre(),
-                    t.getCodigo()
-                }
-        );
+        try {
+            this.getJdbcTemplate().update(
+                    sql,
+                    new Object[]{
+                        t.getNombre(),
+                        t.getCodigo()
+                    }
+            );
 
-        Long id = this.getJdbcTemplate().queryForObject("select last_insert_id()", Long.class);
-        t.setId(id);
+            Long id = this.getJdbcTemplate().queryForObject("select last_insert_id()", Long.class);
+            t.setId(id);
 
-    } catch (DataAccessException e) {
-        System.err.println("ERROR: " + e.getMessage());
-    }
+        } catch (DataAccessException e) {
+            System.err.println("ERROR: " + e.getMessage());
+        }
     }
 
     @Override
@@ -77,6 +74,5 @@ public Curso get(Long id) {
     public void delete(Curso t) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 
 }
